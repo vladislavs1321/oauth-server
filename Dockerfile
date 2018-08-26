@@ -46,6 +46,7 @@ RUN set -eux \
 	&& docker-php-ext-install \
 		intl \
 		zip \
+		pdo_mysql \
 	&& pecl install \
 		apcu-${APCU_VERSION} \
 	&& docker-php-ext-enable --ini-name 20-apcu.ini apcu \

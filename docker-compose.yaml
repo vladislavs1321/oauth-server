@@ -2,6 +2,8 @@ version: '3.4'
 
 services:
   app:
+    env_file:
+      - .env
     build:
       context: .
       target: symfony_docker_php
@@ -19,6 +21,17 @@ services:
     environment:
       - SYMFONY_VERSION
 
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db_name
+      MYSQL_USER: db_user
+      MYSQL_PASSWORD: db_password
+    ports:
+      - 3367:3306
+
   nginx:
     build:
       context: .
@@ -30,7 +43,7 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./public:/srv/app/public:ro
     ports:
-      - '80:80'
+      - '88:80'
 
   # This HTTP/2 proxy is not secure: it should only be used in dev
   h2-proxy:
